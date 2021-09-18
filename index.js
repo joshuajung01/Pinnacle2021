@@ -23,9 +23,13 @@ app.post('/', async (req, res) => {
   const message = req.body.Body;
   const senderPhoneNum = req.body.From
   const twilioPhoneNum = req.body.To
+  var response = ""
 
-  const response = await utils.router(message);
-  console.log(response);
+  try {
+    response = await utils.router(message);
+  } catch(err) {
+    response = "Unable to handle query! Type 'help' for help";
+  }
 
   client.messages
         .create({body: response, from: twilioPhoneNum, to: senderPhoneNum})
