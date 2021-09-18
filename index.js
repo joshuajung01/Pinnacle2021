@@ -17,18 +17,19 @@ const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.post('/', (req, res) => {
+app.post('/', async (req, res) => {
   const twiml = new MessagingResponse();
-  
+
   const message = req.body.Body;
   const senderPhoneNum = req.body.From
   const twilioPhoneNum = req.body.To
 
-  const response = utils.router(message);
+  const response = await utils.router(message);
   console.log(response);
 
   client.messages
-      .create({body: response, from: twilioPhoneNum, to: senderPhoneNum})
+        .create({body: response, from: twilioPhoneNum, to: senderPhoneNum})
+
 });
 
 http.createServer(app).listen(1337, () => {
