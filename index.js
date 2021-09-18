@@ -19,12 +19,16 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.post('/', (req, res) => {
   const twiml = new MessagingResponse();
+  
   const message = req.body.Body;
+  const senderPhoneNum = req.body.From
+  const twilioPhoneNum = req.body.To
+
   const response = utils.router(message);
   console.log(response);
 
   client.messages
-      .create({body: response, from: '4254413838', to: '6143643805'})
+      .create({body: response, from: twilioPhoneNum, to: senderPhoneNum})
 });
 
 http.createServer(app).listen(1337, () => {
