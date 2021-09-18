@@ -1,0 +1,24 @@
+{
+  "name": "hyperlink",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joshuajung01/Pinnacle2021.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/joshuajung01/Pinnacle2021/issues"
+  },
+  "homepage": "https://github.com/joshuajung01/Pinnacle2021#readme",
+  "dependencies": {
+    "twilio": "^3.67.2",
+    "wolfram-alpha-api": "https://products.wolframalpha.com/api/libraries/javascript/wolfram-alpha-api-1.0.0-rc.1.tgz"
+  }
+}
