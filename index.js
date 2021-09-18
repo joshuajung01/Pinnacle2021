@@ -21,12 +21,21 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.post('/', async (req, res) => {
   const twiml = new MessagingResponse();
+
   const message = req.body.Body;
-  const response = await utils.router(message);
-  console.log(response);
+  const senderPhoneNum = req.body.From
+  const twilioPhoneNum = req.body.To
+  var response = ""
+
+  try {
+    response = await utils.router(message);
+  } catch(err) {
+    response = "Unable to handle query! Type 'help' for help";
+  }
 
   client.messages
-      .create({body: response, from: '9712323132', to: '9712789503'})
+        .create({body: response, from: twilioPhoneNum, to: senderPhoneNum})
+
 });
 
 http.createServer(app).listen(1337, () => {
