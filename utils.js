@@ -20,14 +20,13 @@ async function router(message) {
     case "stellar":
       return "S"
     case "maps":
-      console.log("maps")
       var returnMessage = await maps.maps(message);
       return returnMessage;
     default:
-      return query.query(message);
+      var returnMessage = await query.query(message);
+      return returnMessage
   }
 
 }
-
 
 module.exports = {firstWord, router};
