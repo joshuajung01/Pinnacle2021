@@ -14,9 +14,8 @@ async function help(message) {
     response = "stellar\nmake payments\n\nExample\nstellar {Nathhan implement HERE}"
   }
   else if(messageArr[1] == "maps")
-    response = `maps
+    response = `maps\n
 Lost? Get Directions!
-
 Example:
 To get from Dallas To San Francisco
 
