@@ -5,11 +5,13 @@
 */
 
 require('dotenv').config();
-const utils = require('./utils.js')
 
+//imports
+const utils = require('./utils.js')
 const express = require('express');
 const http = require('http');
 const twilio = require('twilio');
+
 const client = new twilio(process.env.TWILIO_SID, process.env.TWILIO_AUTH);
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
 const bodyParser = require('body-parser');
@@ -17,14 +19,14 @@ const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.post('/', (req, res) => {
+app.post('/', async (req, res) => {
   const twiml = new MessagingResponse();
   const message = req.body.Body;
-  const response = utils.router(message);
+  const response = await utils.router(message);
   console.log(response);
 
   client.messages
-      .create({body: response, from: '4254413838', to: '6143643805'})
+      .create({body: response, from: '9712323132', to: '9712789503'})
 });
 
 http.createServer(app).listen(1337, () => {

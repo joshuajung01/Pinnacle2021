@@ -4,20 +4,22 @@
   *
 */
 
+const { StellarTomlResolver } = require('stellar-sdk');
 const query = require('./routes/query.js')
+const processStellar = require('./routes/processStellar.js')
 
 function firstWord(str) {
   var words = str.trim().split(" ");
   return words[0];
 }
 
-function router(message) {
-  message = message.toLowerCase();
+async function router(message) {
+  //message = message.toLowerCase();
   let cmd = firstWord(message);
 
   switch(cmd) {
     case "stellar":
-      return "S"
+      return await processStellar.parse(message);
     case "maps":
       return "M";
     default:
