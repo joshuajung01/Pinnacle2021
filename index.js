@@ -17,7 +17,7 @@ const MessagingResponse = require('twilio').twiml.MessagingResponse;
 const bodyParser = require('body-parser');
 const app = express();
 
-const ngrok = "http://a044-97-105-8-131.ngrok.io"
+const ngrok = "https://desolate-mountain-63149.herokuapp.com"
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
