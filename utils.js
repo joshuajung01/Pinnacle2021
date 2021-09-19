@@ -24,6 +24,9 @@ async function router(message) {
   
   let cmd = firstWord(message);
   cmd = cmd.toLowerCase();
+  if(message.includes("http://") || message.includes("https://")) {
+        cmd = 'browser';
+      }
 
   switch(cmd) {
     case "stellar":
@@ -37,9 +40,6 @@ async function router(message) {
     case "browser":
       console.log("browser")
       message = message.toLowerCase();
-      if(message.includes("http://") || message.includes("https://")) {
-        cmd = 'browser';
-      }
       var returnMessage = await browser.browser(message);
       return returnMessage;
     case "helper":
