@@ -18,6 +18,9 @@ function firstWord(str) {
 
 async function router(message) {
   //message = message.toLowerCase();
+
+  message = message.replace(/\s+/g, ' ').trim();
+  
   let cmd = firstWord(message);
   cmd = cmd.toLowerCase();
 

@@ -2,9 +2,14 @@ const StellarSdk = require('stellar-sdk')
 const server = new StellarSdk.Server('https://horizon-testnet.stellar.org');
 
 async function parse(str) {
-    console.log("stellar");
+    //console.log("stellar");
     var words = str.trim().split(" ");
-    let command = words[1];
+
+    if (words.length == 1){
+        return "Available commands: balance | pay | create | fund | list";
+    }
+    
+    let command = words[1].toLowerCase();
 
     switch(command) {
         case "balance":
@@ -70,7 +75,7 @@ async function parse(str) {
             }
 
         default:
-            return query.query(message);
+            return "Available commands: balance | pay | create | fund | list";
     }
 
 }
@@ -79,7 +84,7 @@ async function parse(str) {
 async function stellarKeyPair(){
     var newkeypair = StellarSdk.Keypair.random();
     var key_str = "Public Key: " + newkeypair.publicKey() + "\nSecret Key: " + newkeypair.secret(); 
-    console.log(key_str);
+    //console.log(key_str);
     return key_str;
 }
 
