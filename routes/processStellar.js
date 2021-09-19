@@ -51,6 +51,16 @@ async function parse(str) {
         case "create":
             return await stellarKeyPair();
 
+        case "list":
+            if (words.length == 4){
+                entries = words[2];
+                pubkey = words[3];
+                return await stellarHistory(pubkey, entries);
+            }
+            else {
+                return "Please add arguments in the form: stellar list <entries> <pubkey>";
+            }
+
         default:
             return query.query(message);
     }
@@ -158,6 +168,47 @@ async function stellarFund(pubkey, dest, amt, privkey) {
         //console.log(err);
         return error_msg;
     }
+}
+
+    
+async function stellarHistory(pubkey, entries){
+    // get a list of transactions submitted by a particular account
+    const t_list = await server.transactions().forAccount(pubkey).includeFailed(false).order("desc").limit(entries).call();
+
+    var list_str = "";
+
+    for (const t of t_list['records']){
+
+        const t_id = t['id'];
+        //console.log("TRANSACTION ID: " + t_id);
+        list_str += "TRANSACTION ID: " + t_id + "\n";
+        if(t['memo'] != null){
+            //console.log("TRANSACTION MEMO: " + t['memo']);
+            list_str += "TRANSACTION MEMO: " + t['memo'] +"\n";
+        }
+
+        const p_list = await server.payments().forTransaction(t_id).call();
+
+        for (const p of p_list['records']){
+            //console.log(p);
+
+            if(p['asset_type'] == 'native'){
+
+                if(p['from'] == pubkey){
+                    //console.log(p['created_at'] + ": -" + p['amount'] + " XLM");
+                    list_str += p['created_at'] + ": -" + p['amount'] + " XLM\n";
+                }
+                else if(p['to'] == pubkey){
+                    //console.log(p['created_at'] + ": +" + p['amount'] + " XLM");
+                    list_str += p['created_at'] + ": +" + p['amount'] + " XLM\n";
+                }
+            }
+
+        }
+        list_str += "\n";
+        //console.log("");
+    }
+    return list_str;
 }
 
 
