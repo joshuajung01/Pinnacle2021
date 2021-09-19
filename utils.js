@@ -19,23 +19,28 @@ function firstWord(str) {
 async function router(message) {
   //message = message.toLowerCase();
   let cmd = firstWord(message);
-  
-  if(message.includes("http://") || message.includes("https://")) {
-    cmd = 'browser';
-  }
+  cmd = cmd.toLowerCase();
 
   switch(cmd) {
     case "stellar":
       return await processStellar.parse(message);
     case "maps":
+      message = message.toLowerCase();
       var returnMessage = await maps.maps(message);
       return returnMessage;
     case "browser":
+      message = message.toLowerCase();
+      if(message.includes("http://") || message.includes("https://")) {
+        cmd = 'browser';
+      }
       var returnMessage = await browser.browser(message);
+      return returnMessage;
     case "helper":
+      message = message.toLowerCase();
       var returnMessage = await help.help(message);
       return returnMessage;
     default:
+      message = message.toLowerCase();
       var returnMessage = await query.query(message);
       return returnMessage
   }
