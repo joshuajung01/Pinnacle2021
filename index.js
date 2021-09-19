@@ -17,7 +17,7 @@ const MessagingResponse = require('twilio').twiml.MessagingResponse;
 const bodyParser = require('body-parser');
 const app = express();
 
-const ngrok = "http://a044-97-105-8-131.ngrok.io"
+const ngrok = "http://ca42-97-105-8-131.ngrok.io"
 
 app.use(bodyParser.urlencoded({ extended: false }));
 

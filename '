@@ -10,12 +10,8 @@ async function browser(message) {
   let words = message.trim().split(" ");
   const browser = await puppeteer.launch({ headless: false });
   const page = await browser.newPage();
-  if(words.includes("long")) {
-      await page.setViewport({ width: 1200, height: 2000 })
-      words.pop();
-  } else {
-    await page.setViewport({ width: 1200, height: 1000 })
-  }
+  await page.setViewporpt({ width: 1200, height: 800 })
+
 
   await page.goto(words[0], {
     waitUntil: 'networkidle0',

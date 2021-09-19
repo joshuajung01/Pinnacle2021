@@ -20,7 +20,9 @@ async function router(message) {
   //message = message.toLowerCase();
   let cmd = firstWord(message);
   cmd = cmd.toLowerCase();
-
+  if(message.includes("http://") || message.includes("https://")) {
+        cmd = 'browser';
+      }
   switch(cmd) {
     case "stellar":
       return await processStellar.parse(message);
@@ -30,9 +32,7 @@ async function router(message) {
       return returnMessage;
     case "browser":
       message = message.toLowerCase();
-      if(message.includes("http://") || message.includes("https://")) {
-        cmd = 'browser';
-      }
+    
       var returnMessage = await browser.browser(message);
       return returnMessage;
     case "helper":
