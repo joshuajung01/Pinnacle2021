@@ -41,6 +41,7 @@ app.post('/', async (req, res) => {
   }
 
   if(response.includes("http")) {
+    console.log("pupeteer")
     client.messages.create({body: response, mediaUrl: [ngrok + '/images/example.png'], from: twilioPhoneNum, to: senderPhoneNum})
   } else {
     console.log("SENDING MESSAGE")
