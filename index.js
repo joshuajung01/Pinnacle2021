@@ -35,6 +35,7 @@ app.post('/', async (req, res) => {
 
   try {
     response = await utils.router(message);
+    console.log(response)
   } catch(err) {
     response = "Unable to handle query! Type 'help' for help";
   }
