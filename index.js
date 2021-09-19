@@ -22,7 +22,7 @@ const ngrok = "http://a044-97-105-8-131.ngrok.io"
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.post('/', async (req, res) => {
-  console.log("POST")
+   
   const twiml = new MessagingResponse();
 
   const message = req.body.Body;

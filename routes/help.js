@@ -5,6 +5,7 @@
 */
 
 async function help(message) {
+  console.log("help reached")
   const messageArr = message.split(" ")
   let response = ""
   if(messageArr.length <= 1)
