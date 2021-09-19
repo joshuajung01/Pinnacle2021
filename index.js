@@ -5,11 +5,13 @@
 */
 
 require('dotenv').config();
-const utils = require('./utils.js')
 
+//imports
+const utils = require('./utils.js')
 const express = require('express');
 const http = require('http');
 const twilio = require('twilio');
+
 const client = new twilio(process.env.TWILIO_SID, process.env.TWILIO_AUTH);
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
 const bodyParser = require('body-parser');

@@ -1,13 +1,49 @@
 const {Client} = require("@googlemaps/google-maps-services-js");
 const client = new Client({});
 
-//maps chicago houston pageNum
-//maps "123 address" "4325235 address" pageNum
-
+/*
+Acceptable Formats:
+maps loc1 loc2 pageNum
+maps "address1" "address2" pageNum
+maps "loc1" "address2" pageNum
+*/
 async function maps(message) {
-  var messageArr = message.split(" ");
+  var messageArr
+
+  //Check for format
+  if(message.includes("\"")){
+    messageArr = []
+
+    let indicies = []
+    indicies.push(-1)
+
+    //Find Index of " to split by
+    for(let i = 0; i < message.length; i ++){
+      if(message[i]==="\""){
+        indicies.push(i);
+      }
+    }
+
+    indicies.push(message.length);
+
+    for(let i = 0; i < indicies.length - 1; i++){
+      let partAddress = message.slice(indicies[i] + 1, indicies[i+1])
+      if(partAddress.length >= 2){
+        messageArr.push(partAddress)
+      }
+    }
+  }
+  else{
+    messageArr = message.split(" ");
+  }
+
   var finalDirectionsArr = [];
   var pageNum = messageArr[messageArr.length - 1]
+
+  if(! Number.isInteger(pageNum) && isNaN(pageNum.slice(1)))
+    pageNum = 1
+  else
+    pageNum = parseInt(pageNum)
 
   var res = await client.directions({
     params: {
