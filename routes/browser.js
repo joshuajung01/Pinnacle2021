@@ -34,11 +34,12 @@ async function browser(message) {
       await page.evaluate(async (words) => {
       var elements = document.querySelectorAll("[href]");
         //elements[Number(words[1])].click()
-        await elements[Number(words[1])].click({button: 'middle'});                 // click middle button, link open in a new tab
+        await elements[Number(words[1])].click();                 // click middle button, link open in a new tab
       }, words)
       } catch(err){
         console.log(err);
       }
+      await new Promise(r => setTimeout(r, 1000));
 
   }
 
