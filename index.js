@@ -51,7 +51,7 @@ app.post('/', async (req, res) => {
 
 app.use('/images', express.static(__dirname + '/images'));
 
-http.createServer(app).listen(1337, () => {
+http.createServer(app).listen(process.env.PORT || 1337, () => {
   console.log('Express server listening on port 1337');
 });
 
