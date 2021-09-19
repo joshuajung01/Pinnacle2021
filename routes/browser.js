@@ -8,7 +8,10 @@ const puppeteer = require('puppeteer');
 
 async function browser(message) {
   let words = message.trim().split(" ");
-  const browser = await puppeteer.launch({ headless: false });
+  const browser = await puppeteer.launch({ headless: true, args : [
+    '--no-sandbox',
+    '--disable-setuid-sandbox'
+  ]});
   const page = await browser.newPage();
   if(words.includes("long")) {
       await page.setViewport({ width: 1200, height: 2000 })

@@ -2,9 +2,14 @@ const StellarSdk = require('stellar-sdk')
 const server = new StellarSdk.Server('https://horizon-testnet.stellar.org');
 
 async function parse(str) {
-    console.log("stellar");
+    //console.log("stellar");
     var words = str.trim().split(" ");
-    let command = words[1];
+
+    if (words.length == 1){
+        return "Available commands: balance | pay | create | fund | list";
+    }
+    
+    let command = words[1].toLowerCase();
 
     switch(command) {
         case "balance":
@@ -44,8 +49,16 @@ async function parse(str) {
                 privkey = words[5];
                 return await stellarFund(pubkey, newacc, amt, privkey);
             }
+            else if (words.length == 7){
+                amt = words[2];
+                newacc = words[3];
+                pubkey = words[4];
+                privkey = words[5];
+                memo = words[6];
+                return await stellarFund(pubkey, newacc, amt, privkey, memo);
+            }
             else {
-                return "Please add arguments in the form: stellar fund <amt> <newacc> <pubkey> <privkey>";
+                return "Please add arguments in the form: stellar fund <amt> <newacc> <pubkey> <privkey> <memo[optional]>";
             }
 
         case "create":
@@ -62,7 +75,7 @@ async function parse(str) {
             }
 
         default:
-            return query.query(message);
+            return "Available commands: balance | pay | create | fund | list";
     }
 
 }
@@ -71,7 +84,7 @@ async function parse(str) {
 async function stellarKeyPair(){
     var newkeypair = StellarSdk.Keypair.random();
     var key_str = "Public Key: " + newkeypair.publicKey() + "\nSecret Key: " + newkeypair.secret(); 
-    console.log(key_str);
+    //console.log(key_str);
     return key_str;
 }
 
@@ -132,7 +145,7 @@ async function stellarTransaction(pubkey, dest, amt, privkey, memo_str = null) {
 }
 
 //Fund Account on Stellar
-async function stellarFund(pubkey, dest, amt, privkey) {
+async function stellarFund(pubkey, dest, amt, privkey, memo_str = null) {
     const account = await server.loadAccount(pubkey);
     /*
         Right now, we have one function that fetches the base fee.
@@ -141,7 +154,13 @@ async function stellarFund(pubkey, dest, amt, privkey) {
     */
     const fee = await server.fetchBaseFee();
 
-    const transaction = new StellarSdk.TransactionBuilder(account, { fee, networkPassphrase: StellarSdk.Networks.TESTNET})
+    var memo_in = StellarSdk.Memo.none();
+
+    if(memo_str != null){
+        memo_in = StellarSdk.Memo.text(memo_str);
+    }
+
+    const transaction = new StellarSdk.TransactionBuilder(account, { fee, networkPassphrase: StellarSdk.Networks.TESTNET, memo: memo_in})
         .addOperation(
             // this operation pays the dest account with XLM
             StellarSdk.Operation.createAccount({
@@ -206,7 +225,7 @@ async function stellarHistory(pubkey, entries){
 
         }
         list_str += "\n";
-        //console.log("");
+        //console.log("");  
     }
     return list_str;
 }

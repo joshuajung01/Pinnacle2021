@@ -17,11 +17,12 @@ const MessagingResponse = require('twilio').twiml.MessagingResponse;
 const bodyParser = require('body-parser');
 const app = express();
 
-const ngrok = "http://ca42-97-105-8-131.ngrok.io"
+const ngrok = "https://desolate-mountain-63149.herokuapp.com"
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.post('/', async (req, res) => {
+   
   const twiml = new MessagingResponse();
 
   const message = req.body.Body;
@@ -34,16 +35,17 @@ app.post('/', async (req, res) => {
 
   try {
     response = await utils.router(message);
+    console.log(response)
   } catch(err) {
     response = "Unable to handle query! Type 'help' for help";
   }
 
   if(response.includes("http")) {
-    client.messages
-        .create({body: response, mediaUrl: [ngrok + '/images/example.png'], from: twilioPhoneNum, to: senderPhoneNum})
+    console.log("pupeteer")
+    client.messages.create({body: response, mediaUrl: [ngrok + '/images/example.png'], from: twilioPhoneNum, to: senderPhoneNum})
   } else {
-    client.messages
-        .create({body: response, from: twilioPhoneNum, to: senderPhoneNum})
+    console.log("SENDING MESSAGE")
+    client.messages.create({body: response, from: twilioPhoneNum, to: senderPhoneNum})
   }
 
 
@@ -51,8 +53,8 @@ app.post('/', async (req, res) => {
 
 app.use('/images', express.static(__dirname + '/images'));
 
-http.createServer(app).listen(1337, () => {
-  console.log('Express server listening on port 1337');
+app.listen(process.env.PORT || 3000, () => {
+  console.log('Express server listening on port 3000');
 });
 
 
