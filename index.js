@@ -41,11 +41,10 @@ app.post('/', async (req, res) => {
   }
 
   if(response.includes("http")) {
-    client.messages
-        .create({body: response, mediaUrl: [ngrok + '/images/example.png'], from: twilioPhoneNum, to: senderPhoneNum})
+    client.messages.create({body: response, mediaUrl: [ngrok + '/images/example.png'], from: twilioPhoneNum, to: senderPhoneNum})
   } else {
-    client.messages
-        .create({body: response, from: twilioPhoneNum, to: senderPhoneNum})
+    console.log("SENDING MESSAGE")
+    client.messages.create({body: response, from: twilioPhoneNum, to: senderPhoneNum})
   }
 
 
