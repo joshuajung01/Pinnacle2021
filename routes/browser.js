@@ -8,7 +8,10 @@ const puppeteer = require('puppeteer');
 
 async function browser(message) {
   let words = message.trim().split(" ");
-  const browser = await puppeteer.launch({ headless: false });
+  const browser = await puppeteer.launch({ headless: false, 'args' : [
+    '--no-sandbox',
+    '--disable-setuid-sandbox'
+  ]});
   const page = await browser.newPage();
   //await page.setViewporpt({ width: 1920, height: 1080 })
 
